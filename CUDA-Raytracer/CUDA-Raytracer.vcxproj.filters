@@ -13,16 +13,21 @@
     <CudaCompile Include="kernel.cu">
       <Filter>src</Filter>
     </CudaCompile>
-    <CudaCompile Include="ray.cu" />
+    <CudaCompile Include="ray.cu">
+      <Filter>src</Filter>
+    </CudaCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="image.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="main.cu">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="cuda-raytracer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere.cu">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,7 +50,12 @@
     <ClInclude Include="vec3.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="ray.h" />
+    <ClInclude Include="ray.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

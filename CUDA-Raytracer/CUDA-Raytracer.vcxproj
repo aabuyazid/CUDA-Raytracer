@@ -89,13 +89,15 @@
     <ClInclude Include="image.h" />
     <ClInclude Include="interval.h" />
     <ClInclude Include="ray.h" />
+    <ClInclude Include="sphere.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cuda-raytracer.cpp" />
     <ClCompile Include="image.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="main.cu" />
+    <ClCompile Include="sphere.cu" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
