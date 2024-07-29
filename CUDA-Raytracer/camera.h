@@ -3,6 +3,7 @@
 
 #include "cuda-raytracer.h"
 #include "image.h"
+#include "sphere.h"
 
 class camera {
 public: 
@@ -19,6 +20,7 @@ public:
 
 	__host__ std::shared_ptr<image> gradient_render();
 	__host__ std::shared_ptr<image> skybox_render();
+	__host__ std::shared_ptr<image> two_sphere_render(sphere** d_sphere_list, int num_spheres);
 
 private:
 	size_t ib_size;
@@ -42,6 +44,8 @@ private:
 __global__ void gradient_render_kernel(color* fb, int max_x, int max_y);
 __global__ void skybox_render_kernel(color* fb, int img_width, int img_height,
 point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_v);
+__global__ void two_sphere_render_kernel(color* fb, int img_width, int img_height,
+point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_v, sphere** d_sphere_list, int num_spheres);
 
 __device__ vec3 ray_color(const ray& r);
 

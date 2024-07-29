@@ -15,11 +15,6 @@ __host__ void camera::initialize() {
     u = unit_vector(cross(vup, w));
     v = cross(w, u);
 
-    std::cout << "w = " << w << "\n";
-    std::cout << "u = " << u << "\n";
-    std::cout << "v = " << v << "\n";
-
-
     // Horizontal vector u and vertical vector v of viewport edges
     vec3 viewport_u = viewport_width * u;
     vec3 viewport_v = viewport_height * -v;
@@ -27,13 +22,9 @@ __host__ void camera::initialize() {
     delta_u = viewport_u / img_width;
     delta_v = viewport_v / img_height;
 
-    std::cout << "delta_u = " << delta_u << "\n";
-    std::cout << "delta_v = " << delta_v << "\n";
-
     // Location of the upper left pixel
     vec3 viewport_upper_left = look_from - (focal_length * w) - viewport_u/2 - viewport_v/2;
     pixel00_loc = viewport_upper_left + 0.5f * (delta_u + delta_v);
-    std::cout << "pixel00_loc = " << pixel00_loc << "\n";
 
     // Frame Buffer Set-up
     int num_pixels = img_width * img_height;
@@ -75,6 +66,7 @@ __host__ std::shared_ptr<image> camera::gradient_render() {
 __host__ std::shared_ptr<image> camera::skybox_render() {
     dim3 blocks(img_width / tx + 1, img_height / ty + 1);
     dim3 threads(tx, ty);
+
     skybox_render_kernel<<<blocks, threads >>>(img_buf, img_width, img_height,
         look_from, pixel00_loc, delta_u, delta_v);
 
@@ -82,8 +74,21 @@ __host__ std::shared_ptr<image> camera::skybox_render() {
     checkCudaErrors(cudaDeviceSynchronize());
 
     return create_frame();
-
 }
+
+__host__ std::shared_ptr<image> camera::two_sphere_render(sphere** d_sphere_list, int num_spheres) {
+    dim3 blocks(img_width / tx + 1, img_height / ty + 1, 1);
+    dim3 threads(tx, ty, num_spheres);
+
+    two_sphere_render_kernel<<<blocks, threads, img_width*img_height*num_spheres*sizeof(hit_record)>>>(img_buf, img_width, img_height,
+        look_from, pixel00_loc, delta_u, delta_v, d_sphere_list, num_spheres);
+
+    checkCudaErrors(cudaGetLastError());
+    checkCudaErrors(cudaDeviceSynchronize());
+
+    return create_frame();
+}
+
 
 // Camera Function Implementations End
 
@@ -106,6 +111,20 @@ point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_v) {
    // float v = float(j) / float(img_height);
    ray r(origin, pixel00_loc + x*delta_u + y*delta_v);
    fb[pixel_index] = ray_color(r);
+}
+
+__global__ void two_sphere_render_kernel(color* fb, int img_width, int img_height,
+point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_v, sphere** d_sphere_list, int num_spheres) {
+    extern __shared__ hit_record recs[];
+    int x = threadIdx.x + blockIdx.x * blockDim.x;
+    int y = threadIdx.y + blockIdx.y * blockDim.y;
+    int z = threadIdx.z + blockIdx.z * blockDim.z;
+    if((x >= img_width) || (y >= img_height) || (z >= num_spheres)) return;
+    int rec_idx = (y * img_width) + (x * num_spheres) + z;
+    ray r(origin, pixel00_loc + x * delta_u + y * delta_v);
+    recs[rec_idx] = (*d_sphere_list + z)->hit(r, interval(0.001f, +infinity));
+    __syncthreads();
+    if (!(x == 0 && y == 0 && z == 0)) return;
 
 }
 

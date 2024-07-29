@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
     // Render the world
 
     // auto frame = cam.gradient_render();
-    auto frame = cam.skybox_render();
+    // auto frame = cam.skybox_render();
 
     frame->writeToFile(out_file);
 
