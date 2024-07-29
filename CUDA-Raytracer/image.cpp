@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "Image.h"
+#include "image.h"
 #include "interval.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
@@ -50,7 +50,7 @@ void image::setPixel(int x, int y, const color& pixelColor) {
     auto b = pixelColor.z();
 
     // Translate the [0,1] component values to the byte range [0,255].
-    static const interval intensity(0.000, 0.999);
+    static const interval intensity(0.000f, 0.999f);
     int rbyte = int(256 * intensity.clamp(r));
     int gbyte = int(256 * intensity.clamp(g));
     int bbyte = int(256 * intensity.clamp(b));

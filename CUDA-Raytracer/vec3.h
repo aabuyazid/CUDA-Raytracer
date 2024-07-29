@@ -44,7 +44,7 @@ public:
     }
 
 	__host__ __device__ float length_squared() const {
-        return dot(*this, *this);
+        return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
     }
 
     __host__ __device__ float length() const {

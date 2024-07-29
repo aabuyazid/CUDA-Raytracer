@@ -11,11 +11,23 @@ public:
 	float min, max;
 	__host__ __device__ interval() : min(+infinity), max(-infinity) {}
 	__host__ __device__ interval(float min, float max) : min(min), max(max) {}
-	__host__ __device__ float size() const;
-	__host__ __device__ bool contains(float x) const;
-	__host__ __device__ bool surrounds(float x) const;
-
-	__host__ __device__ float clamp(float x) const;
+	__host__ __device__ inline float interval::size() const { return max - min; }
+	__host__ __device__ inline bool interval::contains(float x) const {
+		return min <= x && x <= max;
+	}
+	__host__ __device__ inline bool interval::surrounds(float x) const {
+		return min < x && x < max;
+	}
+	
+	__host__ __device__ inline float interval::clamp(float x) const {
+		if (x < min) {
+			return min;
+		}
+		if (x > max) {
+			return max;
+		}
+		return x;
+	}
 
 	static const interval empty;
 	static const interval universe;

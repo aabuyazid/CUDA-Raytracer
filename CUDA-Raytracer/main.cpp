@@ -20,7 +20,8 @@ camera initialize_camera(int argc, char* argv[]) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 6 || argc != 2) {
+    std::cout << argc << "\n";
+    if (argc != 2 && argc != 6) {
         std::cout << "Usage: ./cuda-raytracer <output file> <img width> <img height> <viewport height> <fov> \n";
         std::cout << "Usage: ./cuda-raytracer <output file>  \n";
         return -1;
@@ -31,9 +32,11 @@ int main(int argc, char* argv[]) {
 
     camera cam = initialize_camera(argc, argv);
 
-    cam.test_render();
+    auto frame = cam.test_render();
 
+    frame->writeToFile(out_file);
 
+    std::cout << "Render Complete\n";
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "cuda-raytracer.h"
+#include "image.h"
 
 class camera {
 public: 
@@ -16,17 +17,20 @@ public:
 	point3 look_at   = point3(0, 0, -1);
 	vec3   vup       = vec3(0, 1, 0);
 
-	__host__ void test_render();
+	__host__ std::shared_ptr<image> test_render();
 
 private:
 	size_t fb_size;
 	float* ft_buf;
 	int tx = 8, ty = 8;
 
-	// __host__ void test_initialize();
+	__host__ std::shared_ptr<image> create_frame();
 
-	__global__ void test_render_kernel(float* fb, int max_x, int max_y);
+	// __host__ void test_initialize();
 };
+
+// GPU Kernel
+__global__ void test_render_kernel(float* fb, int max_x, int max_y);
 
 #endif // CAMERA_H
 
