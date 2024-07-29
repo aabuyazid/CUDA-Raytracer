@@ -80,6 +80,7 @@
     <CudaCompile Include="camera.cu" />
     <CudaCompile Include="interval.cu" />
     <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="ray.cu" />
     <CudaCompile Include="vec3.cu" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,7 @@
     <ClInclude Include="cuda-raytracer.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="interval.h" />
+    <ClInclude Include="ray.h" />
     <ClInclude Include="stb_image_write.h" />
     <ClInclude Include="vec3.h" />
   </ItemGroup>

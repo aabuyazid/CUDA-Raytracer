@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 
     camera cam = initialize_camera(argc, argv);
 
-    auto frame = cam.test_render();
+    auto frame = cam.gradient_render();
 
     frame->writeToFile(out_file);
 

@@ -13,6 +13,7 @@
     <CudaCompile Include="kernel.cu">
       <Filter>src</Filter>
     </CudaCompile>
+    <CudaCompile Include="ray.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="image.cpp">
@@ -44,6 +45,7 @@
     <ClInclude Include="vec3.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="ray.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">

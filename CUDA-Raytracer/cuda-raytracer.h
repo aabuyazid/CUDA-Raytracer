@@ -12,5 +12,6 @@ void check_cuda(cudaError_t result, char const* const func, const char* const fi
 // Utility Includes
 #include "vec3.h"
 #include "interval.h"
+#include "ray.h"
 
 #endif // CUDA_RAYTRACER_H
