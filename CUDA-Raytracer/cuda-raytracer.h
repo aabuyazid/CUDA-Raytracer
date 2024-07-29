@@ -14,4 +14,11 @@ void check_cuda(cudaError_t result, char const* const func, const char* const fi
 #include "interval.h"
 #include "ray.h"
 
+// Constants
+
+const float pi = 3.1415926535897932385f;
+
+// Utility Functions
+float degrees_to_radians(float degrees);
+
 #endif // CUDA_RAYTRACER_H

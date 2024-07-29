@@ -9,3 +9,7 @@ void check_cuda(cudaError_t result, char const* const func, const char* const fi
         exit(99);
     }
 }
+
+float degrees_to_radians(float degrees) {
+    return degrees * (pi / 180.0f);
+}

@@ -78,6 +78,10 @@ __host__ __device__ inline vec3 operator+(const vec3& v, const vec3& u) {
     return vec3(v.x() + u.x(), v.y() + u.y(), v.z() + u.z());
 }
 
+__host__ __device__ inline vec3 operator-(const vec3& v, const vec3& u) {
+    return vec3(v.x() - u.x(), v.y() - u.y(), v.z() - u.z());
+}
+
 __host__ __device__ inline vec3 operator*(const vec3& v, const vec3& u) {
     return vec3(v.x() * u.x(), v.y() * u.y(), v.z() * u.z());
 }

@@ -18,11 +18,18 @@ public:
 	vec3   vup       = vec3(0, 1, 0);
 
 	__host__ std::shared_ptr<image> gradient_render();
+	__host__ std::shared_ptr<image> skybox_render();
 
 private:
 	size_t ib_size;
 	color* img_buf;
 	int tx = 8, ty = 8;
+
+	double viewport_width;
+
+	point3 pixel00_loc;
+	vec3 delta_u, delta_v;
+	vec3 u, v, w;
 
 	__host__ std::shared_ptr<image> create_frame();
 
@@ -34,7 +41,7 @@ private:
 // GPU Kernel/Functions
 __global__ void gradient_render_kernel(color* fb, int max_x, int max_y);
 __global__ void skybox_render_kernel(color* fb, int img_width, int img_height,
-point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_h);
+point3 origin, point3 pixel00_loc, vec3 delta_u, vec3 delta_v);
 
 __device__ vec3 ray_color(const ray& r);
 
